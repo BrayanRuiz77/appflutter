@@ -1,13 +1,18 @@
 class Task {
-  final String title;
-  bool completed;
+  String title;
+  bool isCompleted;
 
-  Task({required this.title, this.completed = false});
+  Task({required this.title, this.isCompleted = false});
 
-  Task copyWith({String? title, bool? completed}) {
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'isCompleted': isCompleted,
+      };
+
+  static Task fromJson(Map<String, dynamic> json) {
     return Task(
-      title: title ?? this.title,
-      completed: completed ?? this.completed,
+      title: json['title'],
+      isCompleted: json['isCompleted'],
     );
   }
 }

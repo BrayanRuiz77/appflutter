@@ -1,23 +1,45 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../models/task.dart';
 
-final tasksProvider = StateNotifierProvider<TasksNotifier, List<Task>>((ref) {
-  return TasksNotifier();
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
+  return TaskListNotifier();
 });
 
-class TasksNotifier extends StateNotifier<List<Task>> {
-  TasksNotifier() : super([]);
-
-  void addTask(String title) {
-    state = [...state, Task(title: title)];
+class TaskListNotifier extends StateNotifier<List<Task>> {
+  TaskListNotifier() : super([]) {
+    loadTasks();
   }
 
-  void toggleTask(int index) {
-    state[index] = state[index].copyWith(completed: !state[index].completed);
+  void addTask(Task task) {
+    state = [...state, task];
+    saveTasks();
+  }
+
+  void toggleTaskCompletion(int index) {
+    state[index].isCompleted = !state[index].isCompleted;
     state = [...state];
+    saveTasks();
   }
 
-  void removeTask(int index) {
-    state = [...state..removeAt(index)];
+  void removeCompletedTasks() {
+    state = state.where((task) => !task.isCompleted).toList();
+    saveTasks();
+  }
+
+  Future<void> loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? tasksString = prefs.getString('tasks');
+    if (tasksString != null) {
+      final List tasksJson = json.decode(tasksString);
+      state = tasksJson.map((taskJson) => Task.fromJson(taskJson)).toList();
+    }
+  }
+
+  Future<void> saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<Map<String, dynamic>> tasksJson = state.map((task) => task.toJson()).toList();
+    prefs.setString('tasks', json.encode(tasksJson));
   }
 }

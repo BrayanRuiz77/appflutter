@@ -10,10 +10,10 @@ class HomePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Tareas'),
+        title: const Text('Lista de Tareas'),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: () {
               ref.read(taskListProvider.notifier).removeCompletedTasks();
             },
@@ -45,38 +45,38 @@ class HomePage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddTaskDialog(context, ref),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 
   void _showAddTaskDialog(BuildContext context, WidgetRef ref) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController controller = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Nueva Tarea'),
+          title: const Text('Nueva Tarea'),
           content: TextField(
-            controller: _controller,
-            decoration: InputDecoration(hintText: 'Escribe el título de la tarea'),
+            controller: controller,
+            decoration: const InputDecoration(hintText: 'Escribe el título de la tarea'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
             ElevatedButton(
               onPressed: () {
-                if (_controller.text.isNotEmpty) {
-                  ref.read(taskListProvider.notifier).addTask(_controller.text);
+                if (controller.text.isNotEmpty) {
+                  ref.read(taskListProvider.notifier).addTask(controller.text);
                   Navigator.of(context).pop();
                 }
               },
-              child: Text('Guardar'),
+              child: const Text('Guardar'),
             ),
           ],
         );

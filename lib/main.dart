@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/home_page.dart';
+import 'widgets/add_task_page.dart'; // Asegúrate de que esta ruta sea correcta
+import '..providers/task_provider.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lista de Tareas',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'My App',
       home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home Page'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddTaskPage()), // Usa AddTaskPage aquí
+            );
+          },
+          child: Text('Add Task'),
+        ),
+      ),
     );
   }
 }

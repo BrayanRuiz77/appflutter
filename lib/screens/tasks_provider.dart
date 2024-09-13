@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/tasks_provider.dart'; // Asegúrate de importar el archivo correcto
+import '../providers/task_provider.dart'; // Asegúrate de importar el archivo correcto
+import '../models/task.dart'; // Asegúrate de que esta ruta sea correcta
+
+// Define un proveedor para la lista de tareas
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
+  return TaskListNotifier();
+});
+
+// Definición del TaskListNotifier
+class TaskListNotifier extends StateNotifier<List<Task>> {
+  TaskListNotifier() : super([]);
+
+  void addTask(Task task) {
+    state = [...state, task];
+  }
+}
+
 
 class AddTaskDialog extends ConsumerStatefulWidget {
   @override

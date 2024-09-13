@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/tasks_provider.dart';
+import '../providers/tasks_provider.dart'; // Asegúrate de importar el archivo correcto
 
 class AddTaskDialog extends ConsumerStatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
 
   @override
   void dispose() {
-    _titleController.dispose(); // Asegúrate de liberar el controlador cuando se destruye el widget
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -41,8 +41,7 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              // Añade la tarea usando Riverpod
-              ref.read(tasksProvider.notifier).addTask(_titleController.text);
+              ref.read(tasksProvider.notifier).addTask(_titleController.text); // Accedemos al provider
               Navigator.of(context).pop();
             }
           },

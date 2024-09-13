@@ -12,12 +12,6 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
   final _controller = TextEditingController();
 
   @override
-  void dispose() {
-    _controller.dispose(); // Libera el controlador cuando el widget se elimina
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Agregar nueva tarea')),
@@ -33,8 +27,8 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
             ElevatedButton(
               onPressed: () {
                 if (_controller.text.isNotEmpty) {
-                  final task = Task(name: _controller.text);
-                  ref.read(taskListProvider.notifier).addTask(task);
+                  final task = Task(title: _controller.text);
+                  ref.read(taskListProvider.notifier).addTask(task); // Usamos ref.read en lugar de context.read
                   Navigator.pop(context);
                 }
               },

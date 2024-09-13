@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:your_project_name/screens/home_page.dart'; // Asegúrate de cambiar 'your_project_name'
+import 'package:flutter_application_1/screens/home_page.dart'; // Importación correcta del HomePage
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -19,4 +19,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/task_provider.dart';
-import '../models/task.dart';
+import '../providers/task_provider.dart'; // Asegúrate de que esta ruta sea correcta
+import '../models/task.dart'; // Asegúrate de que esta ruta sea correcta
 
-class AddTaskPage extends StatefulWidget {
+class AddTaskPage extends ConsumerWidget {
   @override
-  _AddTaskPageState createState() => _AddTaskPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _controller = TextEditingController();
 
-class _AddTaskPageState extends State<AddTaskPage> {
-  final _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Agregar nueva tarea')),
       body: Padding(
@@ -27,8 +22,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
             ElevatedButton(
               onPressed: () {
                 if (_controller.text.isNotEmpty) {
-                  final task = Task(title: _controller.text);
-                  context.read(taskListProvider.notifier).addTask(task);
+                  // Lee el proveedor y añade la tarea
+                  final task = Task(name: _controller.text);
+                  ref.read(taskListProvider.notifier).addTask(task);
                   Navigator.pop(context);
                 }
               },
@@ -40,3 +36,4 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 }
+

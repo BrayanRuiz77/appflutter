@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/task_provider.dart';
-import 'add_task_page.dart';
-import 'task_details_page.dart';
+import '../screens/task_details_page.dart'; // Ruta corregida
+import '../screens/add_task_page.dart';    // Ruta corregida
 
-class HomePage extends ConsumerWidget {
+
+
+class HomePage extends ConsumerWidget { // Cambia `StatelessWidget` a `ConsumerWidget`
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskListProvider);
+  Widget build(BuildContext context, WidgetRef ref) { // Asegúrate de usar `WidgetRef` en lugar de `BuildContext`
+    final taskList = ref.watch(taskListProvider); // Accede al estado usando Riverpod
 
     return Scaffold(
       appBar: AppBar(
@@ -16,7 +18,7 @@ class HomePage extends ConsumerWidget {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              ref.read(taskListProvider.notifier).removeCompletedTasks();
+              ref.read(taskListProvider.notifier).removeCompletedTasks(); // Usando Riverpod para eliminar tareas
             },
           ),
         ],
@@ -35,7 +37,7 @@ class HomePage extends ConsumerWidget {
             leading: Checkbox(
               value: task.isCompleted,
               onChanged: (value) {
-                ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
+                ref.read(taskListProvider.notifier).toggleTaskCompletion(index); // Usando Riverpod para cambiar estado
               },
             ),
             onTap: () {

@@ -1,21 +1,23 @@
-class TaskListNotifier extends StateNotifier<List<Task>> {
-  TaskListNotifier() : super([]); // Inicializa con una lista vacía
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/task.dart';
+
+final tasksProvider = StateNotifierProvider<TasksNotifier, List<Task>>((ref) {
+  return TasksNotifier();
+});
+
+class TasksNotifier extends StateNotifier<List<Task>> {
+  TasksNotifier() : super([]);
 
   void addTask(String title) {
     state = [...state, Task(title: title)];
   }
 
-  void toggleTaskCompletion(int index) {
-    final task = state[index];
-    task.isCompleted = !task.isCompleted;
+  void toggleTask(int index) {
+    state[index] = state[index].copyWith(completed: !state[index].completed);
     state = [...state];
   }
 
-  void removeCompletedTasks() {
-    state = state.where((task) => !task.isCompleted).toList();
+  void removeTask(int index) {
+    state = [...state..removeAt(index)];
   }
 }
-
-final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
-  return TaskListNotifier();
-});

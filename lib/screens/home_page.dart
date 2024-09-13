@@ -1,82 +1,100 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/task_provider.dart';
-import 'task_details_page.dart';
+import 'package:your_project_name/models/task_model.dart'; // Asegúrate de cambiar esto a la ruta correcta
+import 'package:your_project_name/providers/task_provider.dart'; // Cambia 'your_project_name' por el nombre correcto
 
 class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskListProvider);
+    final tasks = ref.watch(taskProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Tareas'),
+        title: Text('Lista de Tareas', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.teal,
         actions: [
           IconButton(
-            icon: const Icon(Icons.delete),
+            icon: Icon(Icons.delete),
             onPressed: () {
-              ref.read(taskListProvider.notifier).removeCompletedTasks();
+              ref.read(taskProvider.notifier).deleteCompletedTasks();
             },
-          )
+          ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (context, index) {
-          final task = tasks[index];
-          return ListTile(
-            title: Text(task.title),
-            trailing: Checkbox(
-              value: task.isCompleted,
-              onChanged: (value) {
-                ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
+      body: tasks.isEmpty
+          ? Center(
+              child: Text(
+                'No hay tareas pendientes',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+          : ListView.builder(
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                final task = tasks[index];
+                return Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListTile(
+                    leading: Checkbox(
+                      value: task.isCompleted,
+                      onChanged: (_) {
+                        ref.read(taskProvider.notifier).toggleTask(index);
+                      },
+                      activeColor: Colors.teal,
+                    ),
+                    title: Text(
+                      task.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        decoration: task.isCompleted
+                            ? TextDecoration.lineThrough
+                            : null,
+                        color: task.isCompleted ? Colors.grey : Colors.black,
+                      ),
+                    ),
+                  ),
+                );
               },
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TaskDetailsPage(task: task),
-                ),
-              );
-            },
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddTaskDialog(context, ref),
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.teal,
+        child: Icon(Icons.add),
+        onPressed: () {
+          _showAddTaskDialog(context, ref);
+        },
       ),
     );
   }
 
   void _showAddTaskDialog(BuildContext context, WidgetRef ref) {
-    final TextEditingController controller = TextEditingController();
+    final TextEditingController _controller = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Nueva Tarea'),
+          title: Text('Nueva Tarea'),
           content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(hintText: 'Escribe el título de la tarea'),
+            controller: _controller,
+            decoration: InputDecoration(hintText: 'Escribe tu tarea aquí'),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.teal),
               onPressed: () {
-                if (controller.text.isNotEmpty) {
-                  ref.read(taskListProvider.notifier).addTask(controller.text);
-                  Navigator.of(context).pop();
+                if (_controller.text.isNotEmpty) {
+                  ref.read(taskProvider.notifier).addTask(_controller.text);
+                  Navigator.pop(context);
                 }
               },
-              child: const Text('Guardar'),
+              child: Text('Agregar'),
             ),
           ],
         );

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/home_page.dart';
+import 'package:your_project_name/screens/home_page.dart'; // Asegúrate de cambiar 'your_project_name'
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'To-Do App',
+      debugShowCheckedModeBanner: false,
+      title: 'Lista de Tareas',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
-      home: HomePage(),
+      home: HomePage(),  // Establece HomePage como la pantalla principal
     );
   }
 }
+

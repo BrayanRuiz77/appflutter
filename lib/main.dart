@@ -24,11 +24,11 @@ class HomePage extends ConsumerWidget {
           : ListView.builder(
               itemCount: taskList.length,
               itemBuilder: (context, index) {
-                final task = taskList[index];
+                final task = taskList[index]; 
 
                 return ListTile(
                   leading: Checkbox(
-                    value: task.isCompleted,
+                    value: task.isCompleted,  
                     onChanged: (value) {
                       ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
                     },
@@ -37,7 +37,7 @@ class HomePage extends ConsumerWidget {
                     task.title,
                     style: TextStyle(
                       decoration: task.isCompleted
-                          ? TextDecoration.lineThrough
+                          ? TextDecoration.lineThrough  
                           : null,
                       fontSize: 18,
                     ),

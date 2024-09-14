@@ -20,7 +20,7 @@ class TaskDetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text('Descripción: ${task.description}'),
-            SizedBox(height: 20),
+            SizedBox(height: 20), 
             Text(
               'Completada: ${task.isCompleted ? 'Sí' : 'No'}',
               style: TextStyle(fontSize: 18),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/home_page.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart';
-import 'widgets/add_task_dialog.dart';
-import 'widgets/task_details_page.dart';
+import 'package:flutter_application_1/providers/task_provider.dart';
+import 'package:flutter_application_1/widgets/add_task_dialog.dart';
+import 'package:flutter_application_1/widgets/task_details_page.dart';
+
+// ... Resto del código de HomePage
 
 class HomePage extends ConsumerWidget {
   @override

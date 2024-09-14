@@ -29,18 +29,18 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
           children: [
             TextField(
               controller: _controller,
-              decoration: InputDecoration(labelText: 'Nombre de la tarea'),
+              decoration: const InputDecoration(labelText: 'Nombre de la tarea'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 if (_controller.text.isNotEmpty) {
-                  final task = Task(title: _controller.text);
+                  final task = Task(title: _controller.text, description: '');
                   ref.read(taskListProvider.notifier).addTask(task);
                   Navigator.pop(context);
                 }
               },
-              child: Text('Guardar'),
+              child: const Text('Guardar'),
             ),
           ],
         ),

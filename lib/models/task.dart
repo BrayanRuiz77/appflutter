@@ -1,19 +1,11 @@
 class Task {
   String title;
+  String description;
   bool isCompleted;
 
-  Task({required this.title, this.isCompleted = false});
-
-  Map<String, dynamic> toJson() => {
-        'title': title,
-        'isCompleted': isCompleted,
-      };
-
-  static Task fromJson(Map<String, dynamic> json) {
-    return Task(
-      title: json['title'],
-      isCompleted: json['isCompleted'],
-    );
-  }
+  Task({
+    required this.title,
+    required this.description, 
+    this.isCompleted = false,
+  });
 }
-

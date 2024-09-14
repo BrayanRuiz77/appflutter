@@ -1,12 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/task.dart'; // Ruta corregida
+import 'package:flutter_application_1/models/task.dart';
 
-// Proveedor que maneja la lista de tareas
-final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
-  return TaskListNotifier();
-});
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
+  (ref) => TaskListNotifier(),
+);
 
-// Notifier que maneja el estado de la lista de tareas
 class TaskListNotifier extends StateNotifier<List<Task>> {
   TaskListNotifier() : super([]);
 
@@ -14,24 +12,25 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
     state = [...state, task];
   }
 
-  void removeTask(Task task) {
-    state = state.where((t) => t != task).toList();
+  void removeCompletedTasks() {
+    state = state.where((task) => !task.isCompleted).toList();
   }
 
   void toggleTaskCompletion(int index) {
-    state = [
-      for (int i = 0; i < state.length; i++)
-        if (i == index)
-          Task(
-            title: state[i].title,
-            isCompleted: !state[i].isCompleted,
-          )
-        else
-          state[i]
-    ];
+    state[index] = state[index].copyWith(isCompleted: !state[index].isCompleted);
   }
+}
 
-  void removeCompletedTasks() {
-    state = state.where((task) => !task.isCompleted).toList();
+extension TaskExt on Task {
+  Task copyWith({
+    String? title,
+    String? description,
+    bool? isCompleted,
+  }) {
+    return Task(
+      title: title ?? this.title,
+      description: description ?? this.description, 
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
   }
 }

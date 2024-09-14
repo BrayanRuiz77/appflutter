@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/home_page.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'; 
-import 'widgets/add_task_dialog.dart'; // Asegúrate de que esta ruta sea correcta
-import 'providers/task_provider.dart'; // Ruta corregida
+import 'package:flutter_application_1/models/task.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'providers/task_provider.dart'; // Proveedor de tareas
+import 'widgets/add_task_dialog.dart'; 
 
-void main() {
-  runApp(ProviderScope(child: MyApp())); // Proveedor global para Riverpod
-}
+// Pantalla de detalles de la tarea (opcional)
+class TaskDetailsPage extends StatelessWidget {
+  final Task task;
 
-class MyApp extends StatelessWidget {
+  const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      home: HomePage(),
+    return Scaffold(
+      appBar: AppBar(title: Text(task.title)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              task.title,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            // Puedes agregar más detalles de la tarea aquí
+            Text('Descripción: ${task.description}'),
+            SizedBox(height: 20),
+            // Botón para volver a la HomePage
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Volver'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -21,7 +43,7 @@ class MyApp extends StatelessWidget {
 class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskListProvider); // Observa el estado de la lista de tareas
+    final taskList = ref.watch(taskListProvider); // Obtenemos la lista de tareas del provider
 
     return Scaffold(
       appBar: AppBar(
@@ -30,47 +52,113 @@ class HomePage extends ConsumerWidget {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              ref.read(taskListProvider.notifier).removeCompletedTasks(); // Usando Riverpod para eliminar tareas
+              // Eliminar las tareas completadas
+              ref.read(taskListProvider.notifier).removeCompletedTasks();
             },
+            tooltip: 'Eliminar tareas completadas',
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: taskList.length,
-        itemBuilder: (context, index) {
-          final task = taskList[index];
-          return ListTile(
-            title: Text(
-              task.title,
-              style: TextStyle(
-                decoration: task.isCompleted ? TextDecoration.lineThrough : null,
-              ),
-            ),
-            leading: Checkbox(
-              value: task.isCompleted,
-              onChanged: (value) {
-                ref.read(taskListProvider.notifier).toggleTaskCompletion(index); // Usando Riverpod para cambiar estado
+      body: taskList.isEmpty
+          ? Center(child: Text('No hay tareas, agrega una nueva.'))
+          : ListView.builder(
+              itemCount: taskList.length,
+              itemBuilder: (context, index) {
+                final task = taskList[index];
+
+                return ListTile(
+                  title: Text(
+                    task.title,
+                    style: TextStyle(
+                      decoration: task.isCompleted
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
+                  ),
+                  leading: Checkbox(
+                    value: task.isCompleted,
+                    onChanged: (value) {
+                      // Cambiar el estado de completado de la tarea
+                      ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
+                    },
+                  ),
+                  onTap: () {
+                    // Navegar a la pantalla de detalles de la tarea (opcional)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TaskDetailsPage(task: task),
+                      ),
+                    );
+                  },
+                );
               },
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TaskDetailsPage(task: task),
-                ),
-              );
-            },
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddTaskPage()),
+          // Mostrar el diálogo para agregar una nueva tarea
+          showDialog(
+            context: context,
+            builder: (context) => AddTaskDialog(), // Ahora llama correctamente a la clase
           );
         },
         child: Icon(Icons.add),
+        tooltip: 'Agregar tarea',
+      ),
+    );
+  }
+}
+
+// Asegúrate de que el archivo widgets/add_task_dialog.dart esté correctamente implementado
+class AddTaskDialog extends ConsumerStatefulWidget {
+  const AddTaskDialog({Key? key}) : super(key: key);
+
+  @override
+  _AddTaskDialogState createState() => _AddTaskDialogState();
+}
+
+class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Agregar nueva tarea'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min, // Ajusta el tamaño del diálogo
+        children: [
+          TextField(
+            controller: _titleController,
+            decoration: InputDecoration(labelText: 'Nombre de la tarea'),
+          ),
+          SizedBox(height: 10),
+          TextField(
+            controller: _descriptionController,
+            decoration: InputDecoration(labelText: 'Descripción'),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              if (_titleController.text.isNotEmpty) {
+                final task = Task(
+                  title: _titleController.text,
+                  description: _descriptionController.text, 
+                );
+                ref.read(taskListProvider.notifier).addTask(task);
+                Navigator.pop(context);
+              }
+            },
+            child: Text('Guardar'),
+          ),
+        ],
       ),
     );
   }

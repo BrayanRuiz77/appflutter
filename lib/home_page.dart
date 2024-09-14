@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers/task_provider.dart'; // Proveedor de tareas
-import 'models/task.dart'; // Modelo de la tarea
-import 'widgets/add_task_dialog.dart'; // Dialogo para agregar tarea
-import 'screens/task_details_page.dart'; // Pantalla de detalles de la tarea (opcional)
+// Pantalla de detalles de la tarea (opcional)
 
 class HomePage extends ConsumerWidget {
   @override
@@ -72,4 +71,10 @@ class HomePage extends ConsumerWidget {
       ),
     );
   }
+}
+
+AddTaskDialog() {
+}
+
+TaskDetailsPage({required Task task}) {
 }

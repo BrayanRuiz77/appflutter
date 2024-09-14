@@ -12,6 +12,7 @@ class AddTaskPage extends ConsumerStatefulWidget {
 
 class _AddTaskPageState extends ConsumerState<AddTaskPage> {
   final _controller = TextEditingController();
+  
 
   @override
   void dispose() {
@@ -35,9 +36,10 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
             ElevatedButton(
               onPressed: () {
                 if (_controller.text.isNotEmpty) {
-                  final task = Task(name: _controller.text);
+                  final task = Task(title: _controller.text);
                   ref.read(taskListProvider.notifier).addTask(task);
                   Navigator.pop(context);
+                  
                 }
               },
               child: Text('Guardar'),

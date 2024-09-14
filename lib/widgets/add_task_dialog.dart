@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/task.dart';
-import '../providers/task_provider.dart'; 
+import '../models/task.dart'; // Asegúrate de que el archivo models/task.dart esté correctamente implementado
+import '../providers/task_provider.dart'; // Asegúrate de que el archivo providers/task_provider.dart esté correctamente implementado
 
 class AddTaskDialog extends ConsumerStatefulWidget {
   const AddTaskDialog({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class AddTaskDialog extends ConsumerStatefulWidget {
 
 class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
   final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final _descriptionController = TextEditingController(); 
 
   @override
   void dispose() {

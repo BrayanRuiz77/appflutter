@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_application_1/models/task.dart';
+import 'package:flutter_application_1/models/task.dart'; // Asegúrate de que el archivo models/task.dart esté correctamente implementado
 
 final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
   (ref) => TaskListNotifier(),

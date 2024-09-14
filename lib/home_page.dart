@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/task.dart';
+import 'package:flutter_application_1/models/task.dart'; // Asegúrate de que el archivo models/task.dart esté correctamente implementado
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart'; // Proveedor de tareas
+import 'providers/task_provider.dart'; // Asegúrate de que el archivo providers/task_provider.dart esté correctamente implementado
+import 'widgets/add_task_dialog.dart'; // Asegúrate de que el archivo widgets/add_task_dialog.dart esté correctamente implementado
 
 // Pantalla de detalles de la tarea (opcional)
 class TaskDetailsPage extends StatelessWidget {
@@ -98,7 +99,7 @@ class HomePage extends ConsumerWidget {
           // Mostrar el diálogo para agregar una nueva tarea
           showDialog(
             context: context,
-            builder: (context) => AddTaskDialog(),
+            builder: (context) => AddTaskDialog(), // Ahora llama correctamente a la clase
           );
         },
         child: Icon(Icons.add),
@@ -108,6 +109,7 @@ class HomePage extends ConsumerWidget {
   }
 }
 
+// Asegúrate de que el archivo widgets/add_task_dialog.dart esté correctamente implementado
 class AddTaskDialog extends ConsumerStatefulWidget {
   const AddTaskDialog({Key? key}) : super(key: key);
 
@@ -116,11 +118,13 @@ class AddTaskDialog extends ConsumerStatefulWidget {
 }
 
 class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
-  final _controller = TextEditingController();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController(); // Agrega el controlador para la descripción
 
   @override
   void dispose() {
-    _controller.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -132,14 +136,22 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
         mainAxisSize: MainAxisSize.min, // Ajusta el tamaño del diálogo
         children: [
           TextField(
-            controller: _controller,
+            controller: _titleController,
             decoration: InputDecoration(labelText: 'Nombre de la tarea'),
           ),
+          SizedBox(height: 10),
+          TextField(
+            controller: _descriptionController,
+            decoration: InputDecoration(labelText: 'Descripción'),
+          ), // Agrega el campo de texto para la descripción
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              if (_controller.text.isNotEmpty) {
-                final task = Task(title: _controller.text, description: '');
+              if (_titleController.text.isNotEmpty) {
+                final task = Task(
+                  title: _titleController.text,
+                  description: _descriptionController.text, // Obtén la descripción del controlador
+                );
                 ref.read(taskListProvider.notifier).addTask(task);
                 Navigator.pop(context);
               }

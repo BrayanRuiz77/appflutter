@@ -1,63 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/home_page.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart'; // Proveedor de tareas
-import 'widgets/add_task_dialog.dart'; 
-
-// Pantalla de detalles de la tarea (opcional)
-class TaskDetailsPage extends StatelessWidget {
-  final Task task;
-
-  const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(task.title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              task.title,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            // Puedes agregar más detalles de la tarea aquí
-            Text('Descripción: ${task.description}'),
-            SizedBox(height: 20),
-            // Botón para volver a la HomePage
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Volver'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'providers/task_provider.dart';
+import 'widgets/add_task_dialog.dart';
+import 'widgets/task_details_page.dart';
 
 class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskListProvider); // Obtenemos la lista de tareas del provider
+    final taskList = ref.watch(taskListProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Tareas'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // Eliminar las tareas completadas
-              ref.read(taskListProvider.notifier).removeCompletedTasks();
-            },
-            tooltip: 'Eliminar tareas completadas',
-          ),
-        ],
+        title: Text('Lista de Tareas', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.purple[800], // Color de fondo del AppBar
+        elevation: 0, // Elimina la sombra del AppBar
       ),
       body: taskList.isEmpty
           ? Center(child: Text('No hay tareas, agrega una nueva.'))
@@ -67,99 +26,57 @@ class HomePage extends ConsumerWidget {
                 final task = taskList[index];
 
                 return ListTile(
+                  leading: Checkbox(
+                    value: task.isCompleted,
+                    onChanged: (value) {
+                      ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
+                    },
+                  ),
                   title: Text(
                     task.title,
                     style: TextStyle(
                       decoration: task.isCompleted
                           ? TextDecoration.lineThrough
                           : null,
+                      fontSize: 18,
                     ),
                   ),
-                  leading: Checkbox(
-                    value: task.isCompleted,
-                    onChanged: (value) {
-                      // Cambiar el estado de completado de la tarea
-                      ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
+                  subtitle: Text(
+                    task.description, // Agregar la descripción a la lista
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600], 
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TaskDetailsPage(task: task),
+                        ),
+                      );
                     },
                   ),
-                  onTap: () {
-                    // Navegar a la pantalla de detalles de la tarea (opcional)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskDetailsPage(task: task),
-                      ),
-                    );
-                  },
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Mostrar el diálogo para agregar una nueva tarea
           showDialog(
             context: context,
-            builder: (context) => AddTaskDialog(), // Ahora llama correctamente a la clase
+            builder: (context) => AddTaskDialog(),
           );
         },
+        backgroundColor: Colors.purple[800], // Color del botón flotante
         child: Icon(Icons.add),
         tooltip: 'Agregar tarea',
       ),
+      backgroundColor: Colors.grey[200], // Color de fondo de la pantalla
     );
-  }
-}
-
-// Asegúrate de que el archivo widgets/add_task_dialog.dart esté correctamente implementado
-class AddTaskDialog extends ConsumerStatefulWidget {
-  const AddTaskDialog({Key? key}) : super(key: key);
-
-  @override
-  _AddTaskDialogState createState() => _AddTaskDialogState();
-}
-
-class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Agregar nueva tarea'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min, // Ajusta el tamaño del diálogo
-        children: [
-          TextField(
-            controller: _titleController,
-            decoration: InputDecoration(labelText: 'Nombre de la tarea'),
-          ),
-          SizedBox(height: 10),
-          TextField(
-            controller: _descriptionController,
-            decoration: InputDecoration(labelText: 'Descripción'),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              if (_titleController.text.isNotEmpty) {
-                final task = Task(
-                  title: _titleController.text,
-                  description: _descriptionController.text, 
-                );
-                ref.read(taskListProvider.notifier).addTask(task);
-                Navigator.pop(context);
-              }
-            },
-            child: Text('Guardar'),
-          ),
-        ],
-      ),
-    ); 
   }
 }

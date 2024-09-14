@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/task.dart'; // Asegúrate de que el archivo models/task.dart esté correctamente implementado
+import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart'; // Asegúrate de que el archivo providers/task_provider.dart esté correctamente implementado
-import 'widgets/add_task_dialog.dart'; // Asegúrate de que el archivo widgets/add_task_dialog.dart esté correctamente implementado
+import 'providers/task_provider.dart';
+import 'widgets/task_details_page.dart'; // Asegúrate de que la ruta sea correcta
+import 'widgets/add_task_dialog.dart'; 
 
 // Pantalla de detalles de la tarea (opcional)
 class TaskDetailsPage extends StatelessWidget {

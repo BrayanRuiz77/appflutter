@@ -1,23 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/task.dart'; // Importa tu modelo de Task
-
+import '../models/task.dart'; // Ruta corregida
 
 // Proveedor que maneja la lista de tareas
-final tasksProvider = StateNotifierProvider<TasksNotifier, List<Task>>((ref) {
-  return TasksNotifier();
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
+  return TaskListNotifier();
 });
 
 // Notifier que maneja el estado de la lista de tareas
-class TasksNotifier extends StateNotifier<List<Task>> {
-  TasksNotifier() : super([]);
+class TaskListNotifier extends StateNotifier<List<Task>> {
+  TaskListNotifier() : super([]);
 
-  void addTask(String title) {
-    // Crea una nueva tarea y la agrega a la lista de tareas
-    state = [...state, Task(title: title)];
+  void addTask(Task task) {
+    state = [...state, task];
   }
 
   void removeTask(Task task) {
-    // Elimina una tarea de la lista
     state = state.where((t) => t != task).toList();
+  }
+
+  void toggleTaskCompletion(int index) {
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i == index)
+          Task(
+            title: state[i].title,
+            isCompleted: !state[i].isCompleted,
+          )
+        else
+          state[i]
+    ];
+  }
+
+  void removeCompletedTasks() {
+    state = state.where((task) => !task.isCompleted).toList();
   }
 }

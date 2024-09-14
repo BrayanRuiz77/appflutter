@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/task_provider.dart'; // Asegúrate de que esta ruta sea correcta
-import '../models/task.dart'; // Asegúrate de que esta ruta sea correcta
+import '../providers/task_provider.dart'; // Ruta corregida
+import '../models/task.dart'; // Ruta corregida
 
 class AddTaskPage extends ConsumerStatefulWidget {
   const AddTaskPage({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
             ElevatedButton(
               onPressed: () {
                 if (_controller.text.isNotEmpty) {
-                  final task = Task(name: _controller.text);
+                  final task = Task(title: _controller.text);
                   ref.read(taskListProvider.notifier).addTask(task);
                   Navigator.pop(context);
                 }

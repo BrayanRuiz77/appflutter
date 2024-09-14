@@ -160,6 +160,6 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
           ),
         ],
       ),
-    );
+    ); 
   }
 }

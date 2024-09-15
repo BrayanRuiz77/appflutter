@@ -5,11 +5,11 @@ final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
     (ref) => TaskListNotifier());
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
-  TaskListNotifier() : super([]); // Inicializa la lista de tareas vacía
+  TaskListNotifier() : super([]);
 
   // Agrega una nueva tarea
   void addTask(Task task) {
-    state = [...state, task]; // Agrega la nueva tarea a la lista
+    state = [...state, task];
   }
 
   // Cambia el estado de completado de una tarea
@@ -18,7 +18,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
-    state = updatedTasks; // Actualiza el estado con la lista actualizada
+    state = updatedTasks;
   }
 
   // Elimina una tarea de la lista
@@ -28,5 +28,13 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
     state = updatedTasks;
   }
 
-  void updateTask(Task task, Task updatedTask) {}
+  // Actualiza una tarea en la lista
+  void updateTask(Task oldTask, Task newTask) {
+    final taskIndex = state.indexWhere((task) => task == oldTask);
+    if (taskIndex != -1) {
+      final updatedTasks = [...state];
+      updatedTasks[taskIndex] = newTask;
+      state = updatedTasks;
+    }
+  }
 }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/theme_provider.dart';
-import 'package:flutter_application_1/providers/notification_provider.dart'; // Importa el Provider de notificaciones
+import 'package:flutter_application_1/providers/notification_provider.dart';
+import 'package:flutter_application_1/providers/language_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
-    final notificationEnabled = ref.watch(notificationProvider); // No más "?"
+    final notificationEnabled = ref.watch(notificationProvider);
+    final selectedLanguage = ref.watch(languageProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Configuración'),
@@ -62,10 +65,9 @@ class SettingsPage extends ConsumerWidget {
             Consumer(
               builder: (context, ref, child) {
                 return DropdownButton<String>(
-                  value: 'Español', // Valor inicial del idioma
+                  value: selectedLanguage,
                   onChanged: (value) {
-                    // Aquí debes implementar la lógica para cambiar el idioma
-                    // ref.read(languageProvider.notifier).setLanguage(value!); // Ejemplo
+                    ref.read(languageProvider.notifier).setLanguage(value!);
                   },
                   items: [
                     DropdownMenuItem(
@@ -93,11 +95,11 @@ class SettingsPage extends ConsumerWidget {
             Consumer(
               builder: (context, ref, child) {
                 return Switch(
-                  value: notificationEnabled, // Obtiene el valor del Provider
+                  value: notificationEnabled,
                   onChanged: (value) {
                     ref
                         .read(notificationProvider.notifier)
-                        .setNotifications(value); // Actualiza el Provider
+                        .setNotifications(value);
                   },
                 );
               },

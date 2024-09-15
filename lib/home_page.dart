@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart'; // Importa el Provider
+import 'providers/task_provider.dart' as taskProvider; // Importa con prefijo
 import 'widgets/add_task_dialog.dart';
 import 'widgets/task_details_page.dart';
 import 'widgets/settings_page.dart';
@@ -10,7 +10,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskListProvider);
+    final taskList = ref.watch(taskProvider.taskListProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +51,7 @@ class HomePage extends ConsumerWidget {
                     value: task.isCompleted,
                     onChanged: (value) {
                       ref
-                          .read(taskListProvider.notifier)
+                          .read(taskProvider.taskListProvider.notifier)
                           .toggleTaskCompletion(index);
                     },
                   ),
@@ -95,7 +95,7 @@ class HomePage extends ConsumerWidget {
                       IconButton(
                         onPressed: () {
                           ref
-                              .read(taskListProvider.notifier)
+                              .read(taskProvider.taskListProvider.notifier)
                               .toggleTaskCompletion(index);
                         },
                         icon: Icon(
@@ -111,7 +111,9 @@ class HomePage extends ConsumerWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          ref.read(taskListProvider.notifier).deleteTask(index);
+                          ref
+                              .read(taskProvider.taskListProvider.notifier)
+                              .deleteTask(index);
                         },
                         icon: Icon(
                           Icons.delete,

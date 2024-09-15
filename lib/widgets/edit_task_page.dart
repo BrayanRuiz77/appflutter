@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
-import 'package:flutter_application_1/providers/task_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/task_provider.dart' as taskProvider; // Importa con prefijo
 
 class EditTaskPage extends ConsumerStatefulWidget {
   final Task task;
@@ -69,7 +69,8 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                       description: _descriptionController.text,
                     );
                     ref
-                        .read(taskListProvider.notifier)
+                        .read(taskProvider
+                            .taskListProvider.notifier) // Usa el prefijo
                         .updateTask(widget.task, updatedTask);
                     Navigator.pop(context);
                   }

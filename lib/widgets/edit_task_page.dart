@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/task_provider.dart' as taskProvider; // Importa con prefijo
+import '../providers/task_provider.dart' as taskProvider;
 
 class EditTaskPage extends ConsumerStatefulWidget {
   final Task task;
@@ -16,12 +16,15 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  bool _isCompleted = false; // Variable para el estado de completado
 
   @override
   void initState() {
     super.initState();
     _titleController.text = widget.task.title;
     _descriptionController.text = widget.task.description;
+    _isCompleted =
+        widget.task.isCompleted; // Inicializa el estado de completado
   }
 
   @override
@@ -60,6 +63,16 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                 controller: _descriptionController,
                 decoration: const InputDecoration(labelText: 'Descripción'),
               ),
+              const SizedBox(height: 10),
+              CheckboxListTile(
+                title: const Text('Completada'),
+                value: _isCompleted,
+                onChanged: (newValue) {
+                  setState(() {
+                    _isCompleted = newValue!;
+                  });
+                },
+              ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
@@ -67,14 +80,18 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                     final updatedTask = widget.task.copyWith(
                       title: _titleController.text,
                       description: _descriptionController.text,
+                      isCompleted:
+                          _isCompleted, // Actualiza el estado de completado
                     );
                     ref
-                        .read(taskProvider
-                            .taskListProvider.notifier) // Usa el prefijo
+                        .read(taskProvider.taskListProvider.notifier)
                         .updateTask(widget.task, updatedTask);
                     Navigator.pop(context);
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                ),
                 child: const Text('Guardar Cambios'),
               ),
               const SizedBox(height: 20),

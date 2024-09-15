@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.0.0 # Asegúrate de usar la versión más reciente
+  ionicons: ^0.2.2
   shared_preferences: ^2.0.13
 
 dev_dependencies:

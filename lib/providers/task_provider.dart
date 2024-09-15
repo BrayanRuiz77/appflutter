@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/models/task.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
@@ -69,8 +70,4 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
         state.map((task) => jsonEncode(task.toJson())).toList();
     prefs.setStringList('tasks', encodedTasks);
   }
-}
-
-class SharedPreferences {
-  static getInstance() {}
 }

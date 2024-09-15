@@ -7,11 +7,12 @@ class AddTaskDialog extends ConsumerStatefulWidget {
   const AddTaskDialog({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddTaskDialogState createState() => _AddTaskDialogState();
 }
 
 class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -30,12 +31,12 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             TextFormField(
               controller: _titleController,
               decoration:
                   const InputDecoration(labelText: 'Nombre de la tarea'),
-              validator: (value) {
+              validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return 'Por favor, ingresa un nombre para la tarea';
                 }

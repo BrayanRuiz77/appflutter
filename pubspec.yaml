@@ -17,7 +17,17 @@ dependencies:
   intl: ^0.19.0 # O la última versión disponible
   css_colors: ^1.1.5
   flutter_calendar_carousel: ^2.4.4 # O la última versión disponible
+  flutter_launcher_icons: ^0.13.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0 # Asegúrate de usar la última versión
+
+flutter_launcher_icons:
+    image_path: "assets/Pencil.png"
+    android: true
+    ios: true
+    # refactor_android: true
+    # refactor_ios: true
+    # refactor_web: true
+    # web: true

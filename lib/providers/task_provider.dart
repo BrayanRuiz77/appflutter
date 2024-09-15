@@ -3,11 +3,13 @@ import 'package:flutter_application_1/models/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
-    (ref) => TaskListNotifier());
+final StateNotifierProvider<TaskListNotifier, List<Task>> taskListProvider =
+    StateNotifierProvider<TaskListNotifier, List<Task>>(
+        (StateNotifierProviderRef<TaskListNotifier, List<Task>> ref) =>
+            TaskListNotifier());
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
-  TaskListNotifier() : super([]) {
+  TaskListNotifier() : super(<Task>[]) {
     _loadTasks(); // Carga las tareas al inicializarse
   }
 
@@ -19,7 +21,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
 
   // Cambia el estado de completado de una tarea
   void toggleTaskCompletion(int index) {
-    final updatedTasks = [...state];
+    final List<Task> updatedTasks = <Task>[...state];
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
@@ -29,7 +31,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
 
   // Elimina una tarea de la lista
   void deleteTask(int index) {
-    final updatedTasks = [...state];
+    final List<Task> updatedTasks = <Task>[...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
     _saveTasks(); // Guarda las tareas
@@ -37,7 +39,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
 
   // Actualiza una tarea en la lista
   void updateTask(Task oldTask, Task newTask) {
-    final taskIndex = state.indexWhere((task) => task == oldTask);
+    final int taskIndex = state.indexWhere((Task task) => task == oldTask);
     if (taskIndex != -1) {
       final updatedTasks = [...state];
       updatedTasks[taskIndex] = newTask;

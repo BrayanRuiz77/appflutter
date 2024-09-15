@@ -4,5 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   // No necesitas agregar otra función main aquí!
-  runApp(ProviderScope(child: MyApp())); // Asegúrate que esto esté en tu main.dart
+  runApp(const ProviderScope(
+      child: MyApp())); // Asegúrate que esto esté en tu main.dart
 }

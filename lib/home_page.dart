@@ -17,7 +17,7 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'Lista de Tareas',
-          style: TextStyle(
+          style: TextStyle( 
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.white, 

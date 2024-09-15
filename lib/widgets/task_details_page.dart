@@ -25,6 +25,11 @@ class TaskDetailsPage extends StatelessWidget {
               'Descripción: ${task.description}',
               style: TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 20),
+            Text(
+              'Fecha de Vencimiento: ${task.dueDate}',
+              style: TextStyle(fontSize: 16),
+            ),
           ],
         ),
       ),

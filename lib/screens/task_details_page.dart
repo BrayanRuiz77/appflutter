@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/task_provider.dart'; 
-import '../models/task.dart'; 
+import '../providers/task_provider.dart';
+import '../models/task.dart';
+
 class AddTaskPage extends ConsumerStatefulWidget {
   const AddTaskPage({Key? key}) : super(key: key);
 
@@ -29,14 +30,18 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
           children: <Widget>[
             TextField(
               controller: _controller,
-              decoration: const InputDecoration(labelText: 'Nombre de la tarea'),
+              decoration:
+                  const InputDecoration(labelText: 'Nombre de la tarea'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 if (_controller.text.isNotEmpty) {
-                  final Task task = Task(title: _controller.text, description: '');
-                  ref.read(taskListProvider.notifier).addTask(task);
+                  final Task task =
+                      Task(title: _controller.text, description: '');
+                  ref
+                      .read(taskListProvider.notifier)
+                      .addTask(task); // Corregido
                   Navigator.pop(context);
                 }
               },

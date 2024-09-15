@@ -1,44 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers/task_provider.dart';
 import 'widgets/add_task_dialog.dart';
 import 'widgets/task_details_page.dart';
+import 'widgets/settings_page.dart'; // Asegúrate de que este archivo exista
 
 class HomePage extends ConsumerWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<Task> taskList = ref.watch(taskListProvider); 
+    final taskList = ref.watch(taskListProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Lista de Tareas',
-          style: TextStyle( 
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: Colors.white, 
+            color: Colors.white,
           ),
         ),
         centerTitle: true,
         backgroundColor: Colors.purple[800], // Color de fondo del AppBar
         elevation: 0, // Elimina la sombra del AppBar
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Acción para el botón de "Agregar" en el AppBar
+              showDialog(
+                context: context,
+                builder: (context) => AddTaskDialog(),
+              );
+            },
+            icon: Icon(Icons.add), // Icono de "Agregar"
+          ),
+        ],
       ),
       body: taskList.isEmpty
-          ? const Center(child: Text('No hay tareas, agrega una nueva.'))
+          ? Center(
+              child: Text('No hay tareas, agrega una nueva.'),
+            )
           : ListView.builder(
               itemCount: taskList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Task task = taskList[index];
+              itemBuilder: (context, index) {
+                final task = taskList[index];
 
                 return ListTile(
                   leading: Checkbox(
                     value: task.isCompleted,
-                    onChanged: (bool? value) {
-                      ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
+                    onChanged: (value) {
+                      ref
+                          .read(taskListProvider.notifier)
+                          .toggleTaskCompletion(index);
                     },
                   ),
                   title: Text(
@@ -51,23 +65,22 @@ class HomePage extends ConsumerWidget {
                     ),
                   ),
                   subtitle: Text(
-                    task.description, 
+                    task.description,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600],
                     ),
                   ),
                   trailing: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
                     ),
                     onPressed: () {
                       Navigator.push(
                         context,
-                        // ignore: always_specify_types
                         MaterialPageRoute(
-                          builder: (BuildContext context) => TaskDetailsPage(task: task),
+                          builder: (context) => TaskDetailsPage(task: task),
                         ),
                       );
                     },
@@ -79,19 +92,19 @@ class HomePage extends ConsumerWidget {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (BuildContext context) => const AddTaskDialog(),
+            builder: (context) => AddTaskDialog(),
           );
         },
         backgroundColor: Colors.purple[800],
-        tooltip: 'Agregar tarea', // Color del botón flotante
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
+        tooltip: 'Agregar tarea',
       ),
-      backgroundColor: Colors.grey[200], // Color de fondo de la pantalla
+      backgroundColor: Colors.grey[200],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.purple[800], 
-        selectedItemColor: Colors.white, 
+        backgroundColor: Colors.purple[800],
+        selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[300],
-        items: const <BottomNavigationBarItem>[
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'Tareas',
@@ -101,6 +114,18 @@ class HomePage extends ConsumerWidget {
             label: 'Configuración',
           ),
         ],
+        onTap: (index) {
+          // Manejar el evento al presionar un botón de navegación
+          if (index == 1) {
+            // Navegar a la pantalla de Configuración
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SettingsPage(),
+              ),
+            );
+          }
+        },
       ),
     );
   }

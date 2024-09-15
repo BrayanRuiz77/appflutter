@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(fontSize: 14),
         ),
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }

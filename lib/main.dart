@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'home_page.dart';
-import 'providers/theme_provider.dart';
+import 'providers/theme_provider.dart'; // Importa theme_provider.dart
 
 void main() {
   runApp(

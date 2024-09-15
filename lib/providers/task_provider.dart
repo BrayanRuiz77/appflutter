@@ -2,43 +2,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'providers/task_provider.dart' as taskProvider;
-
-// Proveedor de la lista de tareas
 
 final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
     (ref) => TaskListNotifier());
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
   TaskListNotifier() : super([]) {
-    _loadTasks(); // Cargar las tareas al inicializar
+    _loadTasks(); // Carga las tareas al inicializarse
   }
 
-  // Agregar una nueva tarea
+  // Agrega una nueva tarea
   void addTask(Task task) {
-    state = [...state, task]; // Añadir la nueva tarea a la lista
-    _saveTasks(); // Guardar las tareas
+    state = [...state, task]; // Agrega la nueva tarea a la lista
+    _saveTasks(); // Guarda las tareas
   }
 
-  // Cambiar el estado de completado de una tarea
+  // Cambia el estado de completado de una tarea
   void toggleTaskCompletion(int index) {
     final updatedTasks = [...state];
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
-    state = updatedTasks; // Actualizar el estado
-    _saveTasks(); // Guardar las tareas
+    state = updatedTasks; // Actualiza el estado con la lista actualizada
+    _saveTasks(); // Guarda las tareas
   }
 
-  // Eliminar una tarea
+  // Elimina una tarea de la lista
   void deleteTask(int index) {
     final updatedTasks = [...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
-    _saveTasks(); // Guardar las tareas
+    _saveTasks(); // Guarda las tareas
   }
 
-  // Actualizar una tarea
+  // Actualiza una tarea en la lista
   void updateTask(Task oldTask, Task newTask) {
     final taskIndex = state.indexWhere((task) => task == oldTask);
     if (taskIndex != -1) {
@@ -46,16 +43,16 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       updatedTasks[taskIndex] = newTask;
       state = updatedTasks;
     }
-    _saveTasks(); // Guardar las tareas
+    _saveTasks(); // Guarda las tareas
   }
 
-  // Eliminar todas las tareas completadas
+  // Elimina todas las tareas completadas
   void clearAllCompletedTasks() {
     state = state.where((task) => !task.isCompleted).toList();
-    _saveTasks(); // Guardar las tareas
+    _saveTasks(); // Guarda las tareas
   }
 
-  // Cargar tareas desde almacenamiento local
+  // Carga las tareas del almacenamiento local
   Future<void> _loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
     final encodedTasks = prefs.getStringList('tasks');
@@ -66,7 +63,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
     }
   }
 
-  // Guardar tareas en almacenamiento local
+  // Guarda las tareas en el almacenamiento local
   Future<void> _saveTasks() async {
     final prefs = await SharedPreferences.getInstance();
     final encodedTasks =

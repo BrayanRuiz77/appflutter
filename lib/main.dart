@@ -4,11 +4,9 @@ import 'home_page.dart';
 import 'providers/theme_provider.dart'; // Importa theme_provider.dart
 
 void main() {
+  // No necesitas agregar otra función main aquí!
   runApp(
-    ProviderScope(
-      child: MyApp(),
-    ),
-  );
+      ProviderScope(child: MyApp())); // Asegúrate que esto esté en tu main.dart
 }
 
 class MyApp extends StatelessWidget {

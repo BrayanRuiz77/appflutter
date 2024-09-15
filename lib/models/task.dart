@@ -1,7 +1,7 @@
 class Task {
-  String title;
-  String description;
-  bool isCompleted;
+  final String title;
+  final String description;
+  final bool isCompleted;
 
   Task({
     required this.title,
@@ -9,6 +9,7 @@ class Task {
     this.isCompleted = false,
   });
 
+  // Constructor para crear una copia de la tarea con nuevos valores
   Task copyWith({
     String? title,
     String? description,
@@ -21,7 +22,7 @@ class Task {
     );
   }
 
-  // Método para convertir un objeto Task a un mapa JSON
+  // Convierte la tarea a un mapa JSON
   Map<String, dynamic> toJson() {
     return {
       'title': title,
@@ -30,7 +31,7 @@ class Task {
     };
   }
 
-  // Método para crear un objeto Task desde un mapa JSON
+  // Crea una tarea a partir de un mapa JSON
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
       title: json['title'],

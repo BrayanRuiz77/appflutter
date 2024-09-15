@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ionicons/ionicons.dart'
+import 'package:ionicons/ionicons.dart';
 import 'providers/task_provider.dart' as taskProvider;
 import 'widgets/add_task_dialog.dart';
-import 'widgets/task_details_page.dart'; // Asegúrate de que task_details_page.dart esté definido 
-import 'widgets/settings_page.dart'; 
+import 'widgets/task_details_page.dart'; // Importa la clase
+import 'widgets/settings_page.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskProvider.taskListProvider);
+    final List<Task> taskList = ref.watch(taskProvider.taskListProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,15 +27,15 @@ class HomePage extends ConsumerWidget {
         centerTitle: true,
         backgroundColor: Colors.purple[800],
         elevation: 0,
-        actions: [
+        actions: <Widget>[
           IconButton(
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AddTaskDialog(),
+                builder: (BuildContext context) => AddTaskDialog(),
               );
             },
-            icon: Icon(Ionicons.add_outline, size: 30), // Icono de agregar 
+            icon: Icon(Ionicons.add_outline, size: 30), // Icono de agregar
           ),
           IconButton(
             onPressed: () {
@@ -52,13 +53,13 @@ class HomePage extends ConsumerWidget {
             )
           : ListView.builder(
               itemCount: taskList.length,
-              itemBuilder: (context, index) {
-                final task = taskList[index];
+              itemBuilder: (BuildContext context, int index) {
+                final Task task = taskList[index];
 
                 return ListTile(
                   leading: Checkbox(
                     value: task.isCompleted,
-                    onChanged: (value) {
+                    onChanged: (bool? value) {
                       ref
                           .read(taskProvider.taskListProvider.notifier)
                           .toggleTaskCompletion(index);
@@ -81,13 +82,14 @@ class HomePage extends ConsumerWidget {
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       IconButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TaskDetailsPage(task: task),
+                              builder: (BuildContext context) =>
+                                  TaskDetailsPage(task: task),
                             ),
                           );
                         },
@@ -110,7 +112,7 @@ class HomePage extends ConsumerWidget {
                         icon: Icon(
                           task.isCompleted
                               ? Ionicons.checkmark_done_circle_outline
-                              : Ionicons.circle_outline,
+                              : Ionicons.add_circle,
                           size: 24,
                           color: task.isCompleted ? Colors.green : Colors.grey,
                         ),
@@ -144,11 +146,11 @@ class HomePage extends ConsumerWidget {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (context) => AddTaskDialog(),
+            builder: (BuildContext context) => AddTaskDialog(),
           );
         },
         backgroundColor: Colors.purple[800],
-        child: Icon(Ionicons.add_outline, size: 30), // Icono de agregar 
+        child: Icon(Ionicons.add_outline, size: 30), // Icono de agregar
         tooltip: 'Agregar tarea',
       ),
       backgroundColor: Colors.grey[200],
@@ -156,7 +158,7 @@ class HomePage extends ConsumerWidget {
         backgroundColor: Colors.purple[800],
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[300],
-        items: const [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'Tareas',
@@ -166,14 +168,14 @@ class HomePage extends ConsumerWidget {
             label: 'Configuración',
           ),
         ],
-        onTap: (index) {
+        onTap: (int index) {
           // Manejar el evento al presionar un botón de navegación
           if (index == 1) {
             // Navegar a la pantalla de Configuración
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SettingsPage(),
+                builder: (BuildContext context) => SettingsPage(),
               ),
             );
           }

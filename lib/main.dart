@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'home_page.dart'; 
+import 'home_page.dart';
+import 'providers/theme_provider.dart'; // Importa theme_provider.dart
 
 void main() {
-  runApp(const ProviderScope(child: MyApp())); 
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,20 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.read(themeProvider);
+
     return MaterialApp(
+      themeMode: theme,
       title: 'Lista de Tareas',
-      theme: ThemeData(
-        // Define tu tema de color
-        primaryColor: Colors.blue,
-        hintColor: Colors.green,
-        scaffoldBackgroundColor: Colors.grey[100],
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          bodyLarge: TextStyle(fontSize: 16),
-          bodyMedium: TextStyle(fontSize: 14),
-        ),
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: HomePage(),
     );
   }
+}
+
+extension on BuildContext {
+  read(StateNotifierProvider<ThemeProvider, ThemeMode> themeProvider) {}
 }

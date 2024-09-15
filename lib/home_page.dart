@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart';
+import 'providers/task_provider.dart'; // Importa el Provider
 import 'widgets/add_task_dialog.dart';
 import 'widgets/task_details_page.dart';
-import 'widgets/settings_page.dart'; // Asegúrate de que este archivo exista
+import 'widgets/settings_page.dart';
 
 class HomePage extends ConsumerWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskList = ref.watch(taskListProvider);
@@ -22,18 +23,17 @@ class HomePage extends ConsumerWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.purple[800], // Color de fondo del AppBar
-        elevation: 0, // Elimina la sombra del AppBar
+        backgroundColor: Colors.purple[800],
+        elevation: 0,
         actions: [
           IconButton(
             onPressed: () {
-              // Acción para el botón de "Agregar" en el AppBar
               showDialog(
                 context: context,
                 builder: (context) => AddTaskDialog(),
               );
             },
-            icon: Icon(Icons.add), // Icono de "Agregar"
+            icon: Icon(Icons.add),
           ),
         ],
       ),
@@ -58,9 +58,8 @@ class HomePage extends ConsumerWidget {
                   title: Text(
                     task.title,
                     style: TextStyle(
-                      decoration: task.isCompleted
-                          ? TextDecoration.lineThrough
-                          : null,
+                      decoration:
+                          task.isCompleted ? TextDecoration.lineThrough : null,
                       fontSize: 18,
                     ),
                   ),
@@ -71,19 +70,59 @@ class HomePage extends ConsumerWidget {
                       color: Colors.grey[600],
                     ),
                   ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TaskDetailsPage(task: task),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TaskDetailsPage(task: task),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: Colors.grey[700],
                         ),
-                      );
-                    },
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
+                          elevation: WidgetStateProperty.all(2),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          ref
+                              .read(taskListProvider.notifier)
+                              .toggleTaskCompletion(index);
+                        },
+                        icon: Icon(
+                          task.isCompleted
+                              ? Icons.check_circle
+                              : Icons.check_circle_outline,
+                          color: task.isCompleted ? Colors.green : Colors.grey,
+                        ),
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
+                          elevation: WidgetStateProperty.all(2),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          ref.read(taskListProvider.notifier).deleteTask(index);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
+                          elevation: WidgetStateProperty.all(2),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },

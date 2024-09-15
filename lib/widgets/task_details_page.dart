@@ -1,40 +1,42 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/models/task.dart';
 
-class TaskDetailsPage extends StatelessWidget {
-  final Task task;
+// Define el Provider
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
+    (StateNotifierProviderRef<TaskListNotifier, List<Task>> ref) =>
+        TaskListNotifier());
 
-  const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
+class TaskListNotifier extends StateNotifier<List<Task>> {
+  TaskListNotifier() : super(<Task>[]);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(task.title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              task.title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Text('Descripción: ${task.description}'),
-            const SizedBox(height: 20),
-            Text(
-              'Completada: ${task.isCompleted ? 'Sí' : 'No'}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Volver'),
-            ),
-          ],
-        ),
-      ),
+  // Agrega una nueva tarea
+  void addTask(Task task) {
+    state = <Task>[...state, task]; // Agrega la nueva tarea a la lista
+  }
+
+  // Cambia el estado de completado de una tarea
+  void toggleTaskCompletion(int index) {
+    final List<Task> updatedTasks = [...state];
+    updatedTasks[index] = updatedTasks[index].copyWith(
+      isCompleted: !updatedTasks[index].isCompleted,
     );
+    state = updatedTasks; // Actualiza el estado con la lista actualizada
+  }
+
+  // Elimina una tarea de la lista
+  void deleteTask(int index) {
+    final List<Task> updatedTasks = [...state];
+    updatedTasks.removeAt(index);
+    state = updatedTasks;
+  }
+
+  // Actualiza una tarea en la lista
+  void updateTask(Task oldTask, Task newTask) {
+    final int taskIndex = state.indexWhere((Task task) => task == oldTask);
+    if (taskIndex != -1) {
+      final List<Task> updatedTasks = [...state];
+      updatedTasks[taskIndex] = newTask;
+      state = updatedTasks;
+    }
   }
 }

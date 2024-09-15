@@ -1,36 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/models/task.dart';
 
-final StateNotifierProvider<TaskListNotifier, List<Task>> taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
-  (StateNotifierProviderRef<TaskListNotifier, List<Task>> ref) => TaskListNotifier(),
-);
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
+    (ref) => TaskListNotifier());
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
-  TaskListNotifier() : super(<Task>[]);
+  TaskListNotifier() : super([]); // Inicializa la lista de tareas vacía
 
+  // Agrega una nueva tarea
   void addTask(Task task) {
-    state = <Task>[...state, task];
+    state = [...state, task]; // Agrega la nueva tarea a la lista
   }
 
-  void removeCompletedTasks() {
-    state = state.where((Task task) => !task.isCompleted).toList();
-  }
-
+  // Cambia el estado de completado de una tarea
   void toggleTaskCompletion(int index) {
-    state[index] = state[index].copyWith(isCompleted: !state[index].isCompleted);
-  }
-}
-
-extension TaskExt on Task {
-  Task copyWith({
-    String? title,
-    String? description,
-    bool? isCompleted,
-  }) {
-    return Task(
-      title: title ?? this.title,
-      description: description ?? this.description,
-      isCompleted: isCompleted ?? this.isCompleted,
+    final updatedTasks = [...state];
+    updatedTasks[index] = updatedTasks[index].copyWith(
+      isCompleted: !updatedTasks[index].isCompleted,
     );
+    state = updatedTasks; // Actualiza el estado con la lista actualizada
   }
+
+  // Elimina una tarea de la lista
+  void deleteTask(int index) {
+    final updatedTasks = [...state];
+    updatedTasks.removeAt(index);
+    state = updatedTasks;
+  }
+
+  void updateTask(Task task, Task updatedTask) {}
 }

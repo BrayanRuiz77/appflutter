@@ -6,7 +6,7 @@ import 'package:flutter_application_1/providers/task_provider.dart'; // Importar
 
 void main() {
   testWidgets('HomePage muestra un mensaje cuando no hay tareas', (WidgetTester tester) async {
-    await tester.pumpWidget(ProviderScope(child: HomePage())); 
+    await tester.pumpWidget(const ProviderScope(child: HomePage())); 
 
     // Verifica que se muestra el mensaje "No hay tareas"
     expect(find.text('No hay tareas, agrega una nueva.'), findsOneWidget); 

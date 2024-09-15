@@ -7,12 +7,13 @@ class AddTaskDialog extends ConsumerStatefulWidget {
   const AddTaskDialog({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddTaskDialogState createState() => _AddTaskDialogState();
 }
 
 class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController(); 
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController(); 
 
   @override
   void dispose() {
@@ -24,20 +25,20 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Agregar nueva tarea'),
+      title: const Text('Agregar nueva tarea'),
       content: Column(
         mainAxisSize: MainAxisSize.min, 
         children: [
           TextField(
             controller: _titleController,
-            decoration: InputDecoration(labelText: 'Nombre de la tarea'),
+            decoration: const InputDecoration(labelText: 'Nombre de la tarea'),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextField(
             controller: _descriptionController,
-            decoration: InputDecoration(labelText: 'Descripción'),
+            decoration: const InputDecoration(labelText: 'Descripción'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               if (_titleController.text.isNotEmpty) {
@@ -49,7 +50,7 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
                 Navigator.pop(context);
               }
             },
-            child: Text('Guardar'),
+            child: const Text('Guardar'),
           ),
         ],
       ),

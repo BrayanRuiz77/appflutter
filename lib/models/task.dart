@@ -1,3 +1,4 @@
+
 class Task {
   String title;
   String description;
@@ -5,7 +6,7 @@ class Task {
 
   Task({
     required this.title,
-    required this.description, 
+    required this.description,
     this.isCompleted = false,
   });
 }

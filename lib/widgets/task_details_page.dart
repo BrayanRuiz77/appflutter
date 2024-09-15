@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/task.dart'; 
+import 'package:flutter_application_1/models/task.dart';
 
 class TaskDetailsPage extends StatelessWidget {
   final Task task;
@@ -13,24 +13,24 @@ class TaskDetailsPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Text(
               task.title,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Descripción: ${task.description}'),
-            SizedBox(height: 20), 
+            const SizedBox(height: 20),
             Text(
               'Completada: ${task.isCompleted ? 'Sí' : 'No'}',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Volver'),
+              child: const Text('Volver'),
             ),
           ],
         ),

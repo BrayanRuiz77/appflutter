@@ -16,15 +16,14 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  bool _isCompleted = false; // Variable para el estado de completado
+  bool _isCompleted = false;
 
   @override
   void initState() {
     super.initState();
     _titleController.text = widget.task.title;
     _descriptionController.text = widget.task.description;
-    _isCompleted =
-        widget.task.isCompleted; // Inicializa el estado de completado
+    _isCompleted = widget.task.isCompleted;
   }
 
   @override
@@ -80,8 +79,7 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                     final updatedTask = widget.task.copyWith(
                       title: _titleController.text,
                       description: _descriptionController.text,
-                      isCompleted:
-                          _isCompleted, // Actualiza el estado de completado
+                      isCompleted: _isCompleted,
                     );
                     ref
                         .read(taskProvider.taskListProvider.notifier)
@@ -97,7 +95,7 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); // Regresar a la pantalla de detalles
+                  Navigator.pop(context);
                 },
                 child: const Text('Cancelar'),
               ),

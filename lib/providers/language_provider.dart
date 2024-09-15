@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final languageProvider = StateNotifierProvider<LanguageProvider, String>(
+final StateNotifierProvider<LanguageProvider, String> languageProvider =
+    StateNotifierProvider<LanguageProvider, String>(
   (StateNotifierProviderRef<LanguageProvider, String> ref) =>
       LanguageProvider(),
 );

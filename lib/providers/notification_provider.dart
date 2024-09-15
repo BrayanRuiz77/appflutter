@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final notificationProvider = StateNotifierProvider<NotificationProvider, bool>(
-    (ref) => NotificationProvider());
+final StateNotifierProvider<NotificationProvider, bool> notificationProvider =
+    StateNotifierProvider<NotificationProvider, bool>(
+        (StateNotifierProviderRef<NotificationProvider, bool> ref) =>
+            NotificationProvider());
 
 class NotificationProvider extends StateNotifier<bool> {
   NotificationProvider() : super(false);

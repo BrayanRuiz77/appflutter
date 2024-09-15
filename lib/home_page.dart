@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
 import 'providers/task_provider.dart' as taskProvider;
 import 'widgets/add_task_dialog.dart';
-import 'widgets/task_details_page.dart'; // Importa la clase
+import 'widgets/task_details_page.dart';
 import 'widgets/settings_page.dart';
 
 class HomePage extends ConsumerWidget {
@@ -35,7 +35,7 @@ class HomePage extends ConsumerWidget {
                 builder: (BuildContext context) => AddTaskDialog(),
               );
             },
-            icon: Icon(Ionicons.add_outline, size: 30), // Icono de agregar
+            icon: Icon(Ionicons.add_outline, size: 30),
           ),
           IconButton(
             onPressed: () {
@@ -43,7 +43,7 @@ class HomePage extends ConsumerWidget {
                   .read(taskProvider.taskListProvider.notifier)
                   .clearAllCompletedTasks();
             },
-            icon: Icon(Ionicons.trash_outline, size: 30), // Icono de eliminar
+            icon: Icon(Ionicons.trash_outline, size: 30),
           ),
         ],
       ),
@@ -169,9 +169,7 @@ class HomePage extends ConsumerWidget {
           ),
         ],
         onTap: (int index) {
-          // Manejar el evento al presionar un botón de navegación
           if (index == 1) {
-            // Navegar a la pantalla de Configuración
             Navigator.push(
               context,
               MaterialPageRoute(

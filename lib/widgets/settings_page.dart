@@ -36,7 +36,7 @@ class SettingsPage extends ConsumerWidget {
                   onChanged: (value) {
                     ref.read(themeProvider.notifier).setThemeMode(value!);
                   },
-                  items: [
+                  items: const <DropdownMenuItem<ThemeMode>>[
                     DropdownMenuItem(
                       value: ThemeMode.light,
                       child: Text('Claro'),
@@ -54,14 +54,14 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
             SizedBox(height: 32),
-            Text(
+            const Text(
               'Idioma',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Consumer(
               builder: (context, ref, child) {
                 return DropdownButton<String>(
@@ -69,7 +69,7 @@ class SettingsPage extends ConsumerWidget {
                   onChanged: (value) {
                     ref.read(languageProvider.notifier).setLanguage(value!);
                   },
-                  items: [
+                  items: const <DropdownMenuItem<String>>[
                     DropdownMenuItem(
                       value: 'Español',
                       child: Text('Español'),
@@ -84,7 +84,7 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
             SizedBox(height: 32),
-            Text(
+            const Text(
               'Notificaciones',
               style: TextStyle(
                 fontSize: 20,
@@ -104,7 +104,6 @@ class SettingsPage extends ConsumerWidget {
                 );
               },
             ),
-            // ... Puedes añadir más opciones de configuración aquí
           ],
         ),
       ),

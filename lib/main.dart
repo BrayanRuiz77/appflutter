@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'home_page.dart';
-import 'providers/theme_provider.dart'; // Importa theme_provider.dart
+import 'providers/theme_provider.dart';
 
 void main() {
-  // No necesitas agregar otra función main aquí!
-  runApp(
-      ProviderScope(child: MyApp())); // Asegúrate que esto esté en tu main.dart
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Lista de Tareas',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

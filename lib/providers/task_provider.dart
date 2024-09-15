@@ -10,66 +10,59 @@ final StateNotifierProvider<TaskListNotifier, List<Task>> taskListProvider =
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
   TaskListNotifier() : super(<Task>[]) {
-    _loadTasks(); // Carga las tareas al inicializarse
+    _loadTasks();
   }
 
-  // Agrega una nueva tarea
   void addTask(Task task) {
-    state = [...state, task]; // Agrega la nueva tarea a la lista
-    _saveTasks(); // Guarda las tareas
+    state = [...state, task];
+    _saveTasks();
   }
 
-  // Cambia el estado de completado de una tarea
   void toggleTaskCompletion(int index) {
     final List<Task> updatedTasks = <Task>[...state];
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
-    state = updatedTasks; // Actualiza el estado con la lista actualizada
-    _saveTasks(); // Guarda las tareas
+    state = updatedTasks;
+    _saveTasks();
   }
 
-  // Elimina una tarea de la lista
   void deleteTask(int index) {
     final List<Task> updatedTasks = <Task>[...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
-    _saveTasks(); // Guarda las tareas
+    _saveTasks();
   }
 
-  // Actualiza una tarea en la lista
   void updateTask(Task oldTask, Task newTask) {
     final int taskIndex = state.indexWhere((Task task) => task == oldTask);
     if (taskIndex != -1) {
-      final updatedTasks = [...state];
+      final List<Task> updatedTasks = <Task>[...state];
       updatedTasks[taskIndex] = newTask;
       state = updatedTasks;
     }
-    _saveTasks(); // Guarda las tareas
+    _saveTasks();
   }
 
-  // Elimina todas las tareas completadas
   void clearAllCompletedTasks() {
-    state = state.where((task) => !task.isCompleted).toList();
-    _saveTasks(); // Guarda las tareas
+    state = state.where((Task task) => !task.isCompleted).toList();
+    _saveTasks();
   }
 
-  // Carga las tareas del almacenamiento local
   Future<void> _loadTasks() async {
-    final prefs = await SharedPreferences.getInstance();
-    final encodedTasks = prefs.getStringList('tasks');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String>? encodedTasks = prefs.getStringList('tasks');
     if (encodedTasks != null) {
       state = encodedTasks
-          .map((encodedTask) => Task.fromJson(jsonDecode(encodedTask)))
+          .map((String encodedTask) => Task.fromJson(jsonDecode(encodedTask)))
           .toList();
     }
   }
 
-  // Guarda las tareas en el almacenamiento local
   Future<void> _saveTasks() async {
-    final prefs = await SharedPreferences.getInstance();
-    final encodedTasks =
-        state.map((task) => jsonEncode(task.toJson())).toList();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> encodedTasks =
+        state.map((Task task) => jsonEncode(task.toJson())).toList();
     prefs.setStringList('tasks', encodedTasks);
   }
 }

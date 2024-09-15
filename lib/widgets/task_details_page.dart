@@ -1,99 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
-import 'package:flutter_application_1/widgets/edit_task_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/task_provider.dart' as taskProvider; // Importa con prefijo
+import '../providers/task_provider.dart' as taskProvider;
 
-class TaskDetailsPage extends ConsumerWidget {
+class EditTaskPage extends ConsumerStatefulWidget {
+  // Cambia a ConsumerStatefulWidget
   final Task task;
 
-  const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
+  const EditTaskPage({Key? key, required this.task}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskProvider.taskListProvider); // Usa el prefijo
-    final taskIndex = taskList.indexWhere((t) => t == task);
+  _EditTaskPageState createState() => _EditTaskPageState();
+}
 
+class _EditTaskPageState extends ConsumerState<EditTaskPage> {
+  // Utiliza ConsumerState
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.task.title;
+    _descriptionController.text = widget.task.description;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(task.title)),
+      appBar: AppBar(
+        title: const Text('Editar Tarea'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              task.title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Descripción: ${task.description}',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              // Mostrar el estado de completado con un icono
-              children: [
-                Icon(
-                  task.isCompleted ? Icons.check_circle : Icons.circle_outlined,
-                  color: task.isCompleted ? Colors.green : Colors.grey,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Completada: ${task.isCompleted ? 'Sí' : 'No'}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Agrega botones de edición y eliminación
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditTaskPage(
-                        task: task), // Pantalla de edición (a implementar)
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration:
+                    const InputDecoration(labelText: 'Nombre de la tarea'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, ingresa un nombre para la tarea';
+                  }
+                  return null;
+                },
               ),
-              child: const Text('Editar'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Eliminar la tarea del Provider
-                if (taskIndex != -1) {
-                  ref
-                      .read(taskProvider
-                          .taskListProvider.notifier) // Usa el prefijo
-                      .deleteTask(taskIndex);
-                  Navigator.pop(context);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Descripción'),
               ),
-              child: const Text('Eliminar'),
-            ),
-            const SizedBox(height: 20),
-            const Divider(
-              height: 20,
-              thickness: 1,
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Volver'),
-            ),
-          ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final updatedTask = widget.task.copyWith(
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                    );
+                    ref
+                        .read(taskProvider.taskListProvider.notifier)
+                        .updateTask(widget.task, updatedTask);
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('Guardar Cambios'),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); // Regresar a la pantalla de detalles
+                },
+                child: const Text('Cancelar'),
+              ),
+            ],
+          ),
         ),
       ),
     );

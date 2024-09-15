@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/task_provider.dart' as taskProvider; // Importa con prefijo
+import 'providers/task_provider.dart' as taskProvider;
 import 'widgets/add_task_dialog.dart';
-import 'widgets/task_details_page.dart';
 import 'widgets/settings_page.dart';
 
 class HomePage extends ConsumerWidget {
@@ -34,6 +34,14 @@ class HomePage extends ConsumerWidget {
               );
             },
             icon: Icon(Icons.add),
+          ),
+          IconButton(
+            onPressed: () {
+              ref
+                  .read(taskProvider.taskListProvider.notifier)
+                  .clearAllCompletedTasks();
+            },
+            icon: const Icon(Icons.delete_sweep),
           ),
         ],
       ),
@@ -78,7 +86,9 @@ class HomePage extends ConsumerWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TaskDetailsPage(task: task),
+                              builder: (context) => TaskDetailsPage(
+                                  task:
+                                      task), // Corrección: define la función builder
                             ),
                           );
                         },
@@ -170,4 +180,6 @@ class HomePage extends ConsumerWidget {
       ),
     );
   }
+
+  TaskDetailsPage({required Task task}) {}
 }

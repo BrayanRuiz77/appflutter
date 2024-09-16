@@ -38,17 +38,17 @@ class SettingsPage extends ConsumerWidget {
                     ref.read(themeProvider.notifier).setThemeMode(value!);
                   },
                   items: const <DropdownMenuItem<ThemeMode>>[
-                    // ignore: always_specify_types
+                   
                     DropdownMenuItem(
                       value: ThemeMode.light,
                       child: Text('Claro'),
                     ),
-                    // ignore: always_specify_types
+                  
                     DropdownMenuItem(
                       value: ThemeMode.dark,
                       child: Text('Oscuro'),
                     ),
-                    // ignore: always_specify_types
+                    
                     DropdownMenuItem(
                       value: ThemeMode.system,
                       child: Text('Sistema'),
@@ -74,12 +74,12 @@ class SettingsPage extends ConsumerWidget {
                     ref.read(languageProvider.notifier).setLanguage(value!);
                   },
                   items: const <DropdownMenuItem<String>>[
-                    // ignore: always_specify_types
+                   
                     DropdownMenuItem(
                       value: 'Español',
                       child: Text('Español'),
                     ),
-                    // ignore: always_specify_types
+                 
                     DropdownMenuItem(
                       value: 'Inglés',
                       child: Text('Inglés'),

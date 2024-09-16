@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// ignore: library_prefixes
+
 import '../providers/task_provider.dart' as taskProvider;
 
 class EditTaskPage extends ConsumerStatefulWidget {
@@ -10,7 +10,7 @@ class EditTaskPage extends ConsumerStatefulWidget {
   const EditTaskPage({Key? key, required this.task}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
+
   _EditTaskPageState createState() => _EditTaskPageState();
 }
 

@@ -3,7 +3,7 @@ import 'package:flutter_application_1/models/task.dart';
 
 class TaskDetailsPage extends StatelessWidget {
   final Task task;
-  const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
+  const TaskDetailsPage({Key? key, required this.task, required int index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

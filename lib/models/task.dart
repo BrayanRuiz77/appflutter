@@ -22,7 +22,7 @@ class Task {
   }
 
   Map<String, dynamic> toJson() {
-    // ignore: always_specify_types
+
     return {
       'title': title,
       'description': description,

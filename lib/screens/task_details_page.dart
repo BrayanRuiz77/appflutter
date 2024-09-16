@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/task.dart'; // Asegúrate de que Task esté definido en models/task.dart
+import 'package:flutter_application_1/models/task.dart'; 
 
 class TaskDetailsPage extends StatelessWidget {
-  final Task task; // Define el parámetro task en el constructor
+  final Task task; 
 
   const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
 

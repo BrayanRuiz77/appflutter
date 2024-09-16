@@ -3,10 +3,8 @@ import 'package:flutter_application_1/models/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-final StateNotifierProvider<TaskListNotifier, List<Task>> taskListProvider =
-    StateNotifierProvider<TaskListNotifier, List<Task>>(
-        (StateNotifierProviderRef<TaskListNotifier, List<Task>> ref) =>
-            TaskListNotifier());
+final StateNotifierProvider<TaskListNotifier, List<Task>> taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
+    (StateNotifierProviderRef<TaskListNotifier, List<Task>> ref) => TaskListNotifier());
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
   TaskListNotifier() : super(<Task>[]) {
@@ -14,21 +12,21 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   }
 
   void addTask(Task task) {
-    state = [...state, task];
-    _saveTasks();
+    state = <Task>[...state, task];
+    _saveTasks(); 
   }
 
   void toggleTaskCompletion(int index) {
-    final List<Task> updatedTasks = <Task>[...state];
+    final List<Task> updatedTasks = [...state];
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
     state = updatedTasks;
-    _saveTasks();
+    _saveTasks(); 
   }
 
   void deleteTask(int index) {
-    final List<Task> updatedTasks = <Task>[...state];
+    final List<Task> updatedTasks = [...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
     _saveTasks();
@@ -37,7 +35,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   void updateTask(Task oldTask, Task newTask) {
     final int taskIndex = state.indexWhere((Task task) => task == oldTask);
     if (taskIndex != -1) {
-      final List<Task> updatedTasks = <Task>[...state];
+      final List<Task> updatedTasks = [...state];
       updatedTasks[taskIndex] = newTask;
       state = updatedTasks;
     }
@@ -46,7 +44,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
 
   void clearAllCompletedTasks() {
     state = state.where((Task task) => !task.isCompleted).toList();
-    _saveTasks();
+    _saveTasks(); 
   }
 
   Future<void> _loadTasks() async {

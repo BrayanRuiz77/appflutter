@@ -7,6 +7,7 @@ class AddTaskDialog extends ConsumerStatefulWidget {
   const AddTaskDialog({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddTaskDialogState createState() => _AddTaskDialogState();
 }
 
@@ -51,7 +52,7 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  final task = Task(
+                  final Task task = Task(
                     title: _titleController.text,
                     description: _descriptionController.text,
                   );

@@ -12,42 +12,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: always_specify_types
     final theme = context.read(themeProvider);
 
     return MaterialApp(
       themeMode: theme,
       title: 'Lista de Tareas',
       theme: ThemeData(
-        // Definimos un tema principal claro
-        primaryColor: Colors.purple[800], // Color principal morado
-        scaffoldBackgroundColor: Colors.grey[200], // Fondo gris claro
+     
+        primaryColor: Colors.purple[800], 
+        scaffoldBackgroundColor: Colors.grey[200], 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 180, 77, 245), // Color del AppBar morado
+          backgroundColor: Color.fromARGB(255, 180, 77, 245), 
           titleTextStyle: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: Colors.white, // Texto blanco en el AppBar
+            color: Colors.white, 
           ),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.purple[800], // Color del botón flotante morado
+          backgroundColor: Colors.purple[800], 
         ),
-        textTheme: const TextTheme( // Estilos de texto
+        textTheme: const TextTheme(
           displayLarge: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
           titleMedium: TextStyle(
             fontSize: 16,
-            color: Colors.grey, // Subtítulos en gris
+            color: Colors.grey,
           ),
         ),
       ),
-      darkTheme: ThemeData( // Definimos un tema oscuro
-        primaryColor: Colors.purple[400], // Color principal morado más claro
-        scaffoldBackgroundColor: Colors.grey[800], // Fondo gris oscuro
+      darkTheme: ThemeData( 
+        primaryColor: Colors.purple[400], 
+        scaffoldBackgroundColor: Colors.grey[800], 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 239, 233, 240), // Color del AppBar morado
+          backgroundColor: Color.fromARGB(255, 239, 233, 240), 
           titleTextStyle: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -55,16 +56,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.purple[400], // Color del botón flotante morado
+          backgroundColor: Colors.purple[400], 
         ),
-        textTheme: const TextTheme( // Estilos de texto
+        textTheme: const TextTheme( 
           displayLarge: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
           titleMedium: TextStyle(
             fontSize: 16,
-            color: Colors.white, // Subtítulos en blanco
+            color: Colors.white, 
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore: library_prefixes
 import '../providers/task_provider.dart' as taskProvider;
 
 class EditTaskPage extends ConsumerStatefulWidget {
@@ -9,11 +10,12 @@ class EditTaskPage extends ConsumerStatefulWidget {
   const EditTaskPage({Key? key, required this.task}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditTaskPageState createState() => _EditTaskPageState();
 }
 
 class _EditTaskPageState extends ConsumerState<EditTaskPage> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   bool _isCompleted = false;
@@ -45,12 +47,12 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               TextFormField(
                 controller: _titleController,
                 decoration:
                     const InputDecoration(labelText: 'Nombre de la tarea'),
-                validator: (value) {
+                validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, ingresa un nombre para la tarea';
                   }
@@ -66,7 +68,7 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
               CheckboxListTile(
                 title: const Text('Completada'),
                 value: _isCompleted,
-                onChanged: (newValue) {
+                onChanged: (bool? newValue) {
                   setState(() {
                     _isCompleted = newValue!;
                   });
@@ -76,7 +78,7 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    final updatedTask = widget.task.copyWith(
+                    final Task updatedTask = widget.task.copyWith(
                       title: _titleController.text,
                       description: _descriptionController.text,
                       isCompleted: _isCompleted,

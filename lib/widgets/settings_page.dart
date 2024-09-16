@@ -5,45 +5,50 @@ import 'package:flutter_application_1/providers/language_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingsPage extends ConsumerWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
-    final notificationEnabled = ref.watch(notificationProvider);
-    final selectedLanguage = ref.watch(languageProvider);
+    final ThemeMode themeMode = ref.watch(themeProvider);
+    final bool notificationEnabled = ref.watch(notificationProvider);
+    final String selectedLanguage = ref.watch(languageProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Configuración'),
+        title: const Text('Configuración'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+          children: <Widget>[
+            const Text(
               'Tema',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Consumer(
-              builder: (context, ref, child) {
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return DropdownButton<ThemeMode>(
                   value: themeMode,
-                  onChanged: (value) {
+                  onChanged: (ThemeMode? value) {
                     ref.read(themeProvider.notifier).setThemeMode(value!);
                   },
                   items: const <DropdownMenuItem<ThemeMode>>[
+                    // ignore: always_specify_types
                     DropdownMenuItem(
                       value: ThemeMode.light,
                       child: Text('Claro'),
                     ),
+                    // ignore: always_specify_types
                     DropdownMenuItem(
                       value: ThemeMode.dark,
                       child: Text('Oscuro'),
                     ),
+                    // ignore: always_specify_types
                     DropdownMenuItem(
                       value: ThemeMode.system,
                       child: Text('Sistema'),
@@ -52,7 +57,7 @@ class SettingsPage extends ConsumerWidget {
                 );
               },
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             const Text(
               'Idioma',
               style: TextStyle(
@@ -62,17 +67,19 @@ class SettingsPage extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Consumer(
-              builder: (context, ref, child) {
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return DropdownButton<String>(
                   value: selectedLanguage,
-                  onChanged: (value) {
+                  onChanged: (String? value) {
                     ref.read(languageProvider.notifier).setLanguage(value!);
                   },
                   items: const <DropdownMenuItem<String>>[
+                    // ignore: always_specify_types
                     DropdownMenuItem(
                       value: 'Español',
                       child: Text('Español'),
                     ),
+                    // ignore: always_specify_types
                     DropdownMenuItem(
                       value: 'Inglés',
                       child: Text('Inglés'),
@@ -81,7 +88,7 @@ class SettingsPage extends ConsumerWidget {
                 );
               },
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             const Text(
               'Notificaciones',
               style: TextStyle(
@@ -89,12 +96,12 @@ class SettingsPage extends ConsumerWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Consumer(
-              builder: (context, ref, child) {
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return Switch(
                   value: notificationEnabled,
-                  onChanged: (value) {
+                  onChanged: (bool value) {
                     ref
                         .read(notificationProvider.notifier)
                         .setNotifications(value);

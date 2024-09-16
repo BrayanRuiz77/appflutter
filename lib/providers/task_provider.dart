@@ -17,7 +17,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   }
 
   void toggleTaskCompletion(int index) {
-    final List<Task> updatedTasks = [...state];
+    final List<Task> updatedTasks = <Task>[...state];
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
@@ -26,7 +26,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   }
 
   void deleteTask(int index) {
-    final List<Task> updatedTasks = [...state];
+    final List<Task> updatedTasks = <Task>[...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
     _saveTasks();
@@ -35,7 +35,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   void updateTask(Task oldTask, Task newTask) {
     final int taskIndex = state.indexWhere((Task task) => task == oldTask);
     if (taskIndex != -1) {
-      final List<Task> updatedTasks = [...state];
+      final List<Task> updatedTasks = <Task>[...state];
       updatedTasks[taskIndex] = newTask;
       state = updatedTasks;
     }

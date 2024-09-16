@@ -3,21 +3,21 @@ import 'package:flutter_application_1/models/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
-    (ref) => TaskListNotifier());
+final StateNotifierProvider<TaskListNotifier, List<Task>> taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
+    (StateNotifierProviderRef<TaskListNotifier, List<Task>> ref) => TaskListNotifier());
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
-  TaskListNotifier() : super([]) {
+  TaskListNotifier() : super(<Task>[]) {
     _loadTasks();
   }
 
   void addTask(Task task) {
-    state = [...state, task];
+    state = <Task>[...state, task];
     _saveTasks(); 
   }
 
   void toggleTaskCompletion(int index) {
-    final List<Task> updatedTasks = [...state];
+    final List<Task> updatedTasks = <Task>[...state];
     updatedTasks[index] = updatedTasks[index].copyWith(
       isCompleted: !updatedTasks[index].isCompleted,
     );
@@ -26,7 +26,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   }
 
   void deleteTask(int index) {
-    final updatedTasks = [...state];
+    final List<Task> updatedTasks = <Task>[...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
     _saveTasks(); 
@@ -35,7 +35,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   void updateTask(Task oldTask, Task newTask) {
     final int taskIndex = state.indexWhere((Task task) => task == oldTask);
     if (taskIndex != -1) {
-      final List<Task> updatedTasks = [...state];
+      final List<Task> updatedTasks = <Task>[...state];
       updatedTasks[taskIndex] = newTask;
       state = updatedTasks;
     }
@@ -43,13 +43,13 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   }
 
   void clearAllCompletedTasks() {
-    state = state.where((task) => !task.isCompleted).toList();
+    state = state.where((Task task) => !task.isCompleted).toList();
     _saveTasks(); 
   }
 
   Future<void> _loadTasks() async {
-    final prefs = await SharedPreferences.getInstance();
-    final encodedTasks = prefs.getStringList('tasks');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String>? encodedTasks = prefs.getStringList('tasks');
     if (encodedTasks != null) {
       state = encodedTasks
           .map((String encodedTask) => Task.fromJson(jsonDecode(encodedTask)))

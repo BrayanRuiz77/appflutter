@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
+// ignore: library_prefixes
 import 'providers/task_provider.dart' as taskProvider;
 import 'widgets/add_task_dialog.dart';
 import 'widgets/task_details_page.dart';
@@ -24,10 +25,10 @@ class HomePage extends ConsumerWidget {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (BuildContext context) => AddTaskDialog(),
+                builder: (BuildContext context) => const AddTaskDialog(),
               );
             },
-            icon: Icon(Ionicons.add_outline, size: 30),
+            icon: const Icon(Ionicons.add_outline, size: 30),
           ),
           IconButton(
             onPressed: () {
@@ -35,7 +36,7 @@ class HomePage extends ConsumerWidget {
                   .read(taskProvider.taskListProvider.notifier)
                   .clearAllCompletedTasks();
             },
-            icon: Icon(Ionicons.trash_outline, size: 30),
+            icon: const Icon(Ionicons.trash_outline, size: 30),
           ),
         ],
       ),
@@ -63,14 +64,14 @@ class HomePage extends ConsumerWidget {
                       decoration:
                           task.isCompleted ? TextDecoration.lineThrough : null,
                       fontSize: 18,
-                      fontWeight: FontWeight.bold, // Título en negrita
+                      fontWeight: FontWeight.bold, 
                     ),
                   ),
                   subtitle: Text(
                     task.description,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600], // Subtitulo en gris
+                      color: Colors.grey[600], 
                     ),
                   ),
                   trailing: Row(
@@ -80,6 +81,7 @@ class HomePage extends ConsumerWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
+                            // ignore: always_specify_types
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   TaskDetailsPage(task: task),
@@ -89,7 +91,7 @@ class HomePage extends ConsumerWidget {
                         icon: Icon(
                           Ionicons.chevron_forward_outline,
                           size: 24,
-                          color: Colors.grey[700], // Icono en gris
+                          color: Colors.grey[700], 
                         ),
                       ),
                       IconButton(
@@ -103,7 +105,7 @@ class HomePage extends ConsumerWidget {
                               ? Ionicons.checkmark_done_circle_outline
                               : Ionicons.add_circle,
                           size: 24,
-                          color: task.isCompleted ? Colors.green : Colors.grey, // Icono en verde si completada
+                          color: task.isCompleted ? Colors.green : Colors.grey, 
                         ),
                       ),
                       IconButton(
@@ -112,10 +114,10 @@ class HomePage extends ConsumerWidget {
                               .read(taskProvider.taskListProvider.notifier)
                               .deleteTask(index);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Ionicons.trash_outline,
                           size: 24,
-                          color: Colors.red, // Icono en rojo
+                          color: Colors.red, 
                         ),
                       ),
                     ],
@@ -127,11 +129,11 @@ class HomePage extends ConsumerWidget {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (BuildContext context) => AddTaskDialog(),
+            builder: (BuildContext context) => const AddTaskDialog(),
           );
         },
-        child: Icon(Ionicons.add_outline, size: 30),
         tooltip: 'Agregar tarea',
+        child: const Icon(Ionicons.add_outline, size: 30),
       ),
       backgroundColor: Colors.grey[200],
       bottomNavigationBar: BottomNavigationBar(
@@ -152,8 +154,9 @@ class HomePage extends ConsumerWidget {
           if (index == 1) {
             Navigator.push(
               context,
+              // ignore: always_specify_types
               MaterialPageRoute(
-                builder: (BuildContext context) => SettingsPage(),
+                builder: (BuildContext context) => const SettingsPage(),
               ),
             );
           }

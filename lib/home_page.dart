@@ -18,15 +18,7 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'Lista de Tareas',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.purple[800],
-        elevation: 0,
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -49,7 +41,7 @@ class HomePage extends ConsumerWidget {
       ),
       body: taskList.isEmpty
           ? Center(
-              child: Text('No hay tareas, agrega una nueva.'),
+              child: Text('No hay tareas, agrega una nueva.', style: Theme.of(context).textTheme.titleMedium),
             )
           : ListView.builder(
               itemCount: taskList.length,
@@ -71,13 +63,14 @@ class HomePage extends ConsumerWidget {
                       decoration:
                           task.isCompleted ? TextDecoration.lineThrough : null,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold, // Título en negrita
                     ),
                   ),
                   subtitle: Text(
                     task.description,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: Colors.grey[600], // Subtitulo en gris
                     ),
                   ),
                   trailing: Row(
@@ -96,11 +89,7 @@ class HomePage extends ConsumerWidget {
                         icon: Icon(
                           Ionicons.chevron_forward_outline,
                           size: 24,
-                          color: Colors.grey[700],
-                        ),
-                        style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
-                          elevation: WidgetStateProperty.all(2),
+                          color: Colors.grey[700], // Icono en gris
                         ),
                       ),
                       IconButton(
@@ -114,11 +103,7 @@ class HomePage extends ConsumerWidget {
                               ? Ionicons.checkmark_done_circle_outline
                               : Ionicons.add_circle,
                           size: 24,
-                          color: task.isCompleted ? Colors.green : Colors.grey,
-                        ),
-                        style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
-                          elevation: WidgetStateProperty.all(2),
+                          color: task.isCompleted ? Colors.green : Colors.grey, // Icono en verde si completada
                         ),
                       ),
                       IconButton(
@@ -130,11 +115,7 @@ class HomePage extends ConsumerWidget {
                         icon: Icon(
                           Ionicons.trash_outline,
                           size: 24,
-                          color: Colors.red,
-                        ),
-                        style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
-                          elevation: WidgetStateProperty.all(2),
+                          color: Colors.red, // Icono en rojo
                         ),
                       ),
                     ],
@@ -149,8 +130,7 @@ class HomePage extends ConsumerWidget {
             builder: (BuildContext context) => AddTaskDialog(),
           );
         },
-        backgroundColor: Colors.purple[800],
-        child: Icon(Ionicons.add_outline, size: 30), // Icono de agregar
+        child: Icon(Ionicons.add_outline, size: 30),
         tooltip: 'Agregar tarea',
       ),
       backgroundColor: Colors.grey[200],

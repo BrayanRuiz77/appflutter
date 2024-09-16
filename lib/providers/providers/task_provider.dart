@@ -13,7 +13,7 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
 
   void addTask(Task task) {
     state = [...state, task];
-    _saveTasks();
+    _saveTasks(); 
   }
 
   void toggleTaskCompletion(int index) {
@@ -22,14 +22,14 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       isCompleted: !updatedTasks[index].isCompleted,
     );
     state = updatedTasks;
-    _saveTasks(); // Guarda las tareas
+    _saveTasks(); 
   }
 
   void deleteTask(int index) {
     final updatedTasks = [...state];
     updatedTasks.removeAt(index);
     state = updatedTasks;
-    _saveTasks();
+    _saveTasks(); 
   }
 
   void updateTask(Task oldTask, Task newTask) {
@@ -39,12 +39,12 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       updatedTasks[taskIndex] = newTask;
       state = updatedTasks;
     }
-    _saveTasks();
+    _saveTasks(); 
   }
 
   void clearAllCompletedTasks() {
     state = state.where((task) => !task.isCompleted).toList();
-    _saveTasks();
+    _saveTasks(); 
   }
 
   Future<void> _loadTasks() async {

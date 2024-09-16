@@ -17,7 +17,7 @@ class TaskDetailsPage extends StatelessWidget {
           children: <Widget>[
             Text(
               'Título: ${task.title}',
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // Título en negrita
             ),
             const SizedBox(height: 20),
             Text(

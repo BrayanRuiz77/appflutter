@@ -14,7 +14,6 @@ class SettingsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Configuración'),
-        backgroundColor: Colors.purple[800], // Color de fondo del AppBar
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -78,7 +77,6 @@ class SettingsPage extends ConsumerWidget {
                       value: 'Inglés',
                       child: Text('Inglés'),
                     ),
-                    // Agrega más idiomas según sea necesario
                   ],
                 );
               },

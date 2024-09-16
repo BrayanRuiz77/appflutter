@@ -87,9 +87,6 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                     Navigator.pop(context);
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
                 child: const Text('Guardar Cambios'),
               ),
               const SizedBox(height: 20),

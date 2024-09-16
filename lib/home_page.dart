@@ -12,7 +12,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(taskListProvider);
+    final List<Task> taskList = ref.watch(taskListProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +22,7 @@ class HomePage extends ConsumerWidget {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (BuildContext context) => AddTaskDialog(),
+                builder: (BuildContext context) => const AddTaskDialog(),
               );
             },
             icon: const Icon(Ionicons.add_outline, size: 30),
@@ -44,8 +44,8 @@ class HomePage extends ConsumerWidget {
             )
           : ListView.builder(
               itemCount: taskList.length,
-              itemBuilder: (context, index) {
-                final task = taskList[index];
+              itemBuilder: (BuildContext context, int index) {
+                final Task task = taskList[index];
 
                 return Dismissible(
                   key: Key(task.title), 
@@ -55,16 +55,16 @@ class HomePage extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 20.0),
                     child: const Icon(Ionicons.trash_outline, color: Colors.white),
                   ),
-                  onDismissed: (direction) {
+                  onDismissed: (DismissDirection direction) {
                     ref.read(taskListProvider.notifier).deleteTask(index);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Tarea eliminada')),
+                      const SnackBar(content: Text('Tarea eliminada')),
                     );
                   },
                   child: ListTile(
                     leading: Checkbox(
                       value: task.isCompleted,
-                      onChanged: (value) {
+                      onChanged: (bool? value) {
                         ref.read(taskListProvider.notifier).toggleTaskCompletion(index);
                       },
                     ),
